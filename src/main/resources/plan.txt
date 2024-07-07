@@ -1,0 +1,13 @@
+OTP *
+I18n
+Domain level security
+Get current user
+Document service
+Report service
+
+AOP
+Mapper
+DTO
+Swagger
+Minio
+Apache
