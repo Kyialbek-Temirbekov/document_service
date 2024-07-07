@@ -1,7 +1,7 @@
 OTP #
 I18n *
 Domain level security
-Get current user *
+Get current user #
 Document service
 Report service
 

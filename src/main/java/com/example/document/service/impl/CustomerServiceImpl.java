@@ -1,6 +1,7 @@
 package com.example.document.service.impl;
 
 import com.example.document.dto.CreateCustomerDto;
+import com.example.document.dto.CustomerDto;
 import com.example.document.dto.MessageDto;
 import com.example.document.dto.OtpDto;
 import com.example.document.entity.Customer;
@@ -11,9 +12,13 @@ import com.example.document.repository.CustomerRepository;
 import com.example.document.service.CustomerService;
 import com.example.document.service.MessageService;
 import com.example.document.util.NumericTokenGenerator;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +40,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void createCustomer(CreateCustomerDto createCustomerDto) {
-        // what if createCustomerDto is null
         Optional<Customer> optionalCustomer = customerRepository.findByUsername(createCustomerDto.getEmail());
 
         if(optionalCustomer.isPresent() && optionalCustomer.get().isEnabled()) {
@@ -76,7 +80,30 @@ public class CustomerServiceImpl implements CustomerService {
                 throw new BadCredentialsException(ExceptionMessages.INVALID_OTP);
             }
         } else {
-            throw new IllegalArgumentException(ExceptionMessages.USER_NOT_FOUND_BY_EMAIL + ":" + otpDto.getEmail());
+            throw new EntityNotFoundException(ExceptionMessages.USER_NOT_FOUND_BY_EMAIL + ":" + otpDto.getEmail());
+        }
+    }
+
+    @Override
+    public CustomerDto getCustomer() {
+        return getLoggedInUser().toCustomerDto();
+    }
+
+    @Override
+    public Customer getLoggedInUser() {
+        String username = getPrincipal().getUsername();
+        return customerRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException(ExceptionMessages.USER_NOT_FOUND_BY_EMAIL)
+        );
+    }
+
+    @Override
+    public UserDetails getPrincipal() {
+        var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails) {
+            return (UserDetails) principal;
+        } else {
+            throw new AuthenticationCredentialsNotFoundException("Unexpected principal type");
         }
     }
 }

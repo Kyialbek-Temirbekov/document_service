@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class ExpiredOtpCleaningJob {
     private final OtpRepository otpRepository;
 
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void cleanExpiredOtp() {
         log.info("Started cleaning expired otp");
         otpRepository.cleanExpiredOtp();

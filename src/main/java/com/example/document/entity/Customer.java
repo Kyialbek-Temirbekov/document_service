@@ -1,5 +1,6 @@
 package com.example.document.entity;
 
+import com.example.document.dto.CustomerDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,21 +46,27 @@ public class Customer implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    public CustomerDto toCustomerDto() {
+        return CustomerDto.builder()
+                .username(username)
+                .name(name).build();
     }
 }
