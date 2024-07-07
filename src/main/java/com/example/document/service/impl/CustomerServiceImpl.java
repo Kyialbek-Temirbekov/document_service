@@ -29,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final MessageService messageService;
 
     private static final String REGISTRATION_OTP_SUB = "One time password for registration";
-    private static final int OTP_EXPIRY_HOUR = 3;
+    private static final long OTP_EXPIRY_HOUR = 3;
     private static final int OTP_LENGTH = 4;
 
     @Override
@@ -61,6 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public void confirmEmail(OtpDto otpDto) {
         Optional<Customer> optionalCustomer = customerRepository.findByUsername(otpDto.getEmail());
         if(optionalCustomer.isPresent()) {
