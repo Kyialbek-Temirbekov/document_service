@@ -12,12 +12,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class CreateCustomerDto {
     private String email;
     private String password;
-    private String name;
+    private String firstName;
+    private String lastName;
 
     public Customer toCustomer(PasswordEncoder passwordEncoder) {
         return Customer.builder()
                 .username(email)
                 .password(passwordEncoder.encode(password))
-                .name(name).build();
+                .firstName(firstName)
+                .lastName(lastName).build();
     }
 }

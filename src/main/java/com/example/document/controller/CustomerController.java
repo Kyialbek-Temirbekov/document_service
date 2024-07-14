@@ -38,4 +38,9 @@ public class CustomerController {
     public ResponseEntity<CustomerDto> getCustomer() {
         return new ResponseEntity<>(customerService.getCustomer(), HttpStatus.OK);
     }
+    @Operation(summary = "export users")
+    @PostMapping(value = "/export", produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    public ResponseEntity<?> export() {
+        return new ResponseEntity<>(customerService.export(), HttpStatus.OK);
+    }
 }

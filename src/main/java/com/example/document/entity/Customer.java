@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,7 +25,10 @@ public class Customer implements UserDetails {
     private Long id;
     private String username;
     private String password;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime lastSignInAt;
     private boolean isEnabled = false;
     @OneToOne(mappedBy = "customer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private Otp otp;
@@ -67,6 +71,7 @@ public class Customer implements UserDetails {
     public CustomerDto toCustomerDto() {
         return CustomerDto.builder()
                 .username(username)
-                .name(name).build();
+                .firstName(firstName)
+                .lastName(lastName).build();
     }
 }

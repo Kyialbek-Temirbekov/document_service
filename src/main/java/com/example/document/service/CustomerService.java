@@ -12,4 +12,5 @@ public interface CustomerService {
     Customer getLoggedInUser();
     UserDetails getPrincipal();
     CustomerDto getCustomer();
+    byte[] export();
 }
