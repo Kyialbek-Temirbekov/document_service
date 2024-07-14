@@ -14,9 +14,9 @@ import com.example.document.service.MessageService;
 import com.example.document.util.NumericTokenGenerator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -72,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
             if(customer.getOtp().isExpired()) {
                 throw new CredentialsExpiredException(ExceptionMessages.OTP_EXPIRED);
             }
-            else if(/*customer.getOtp().getValue()*/"0000".equals(otpDto.getOtp())) {
+            else if(customer.getOtp().getValue().equals(otpDto.getOtp())) {
                 customer.setOtp(null);
                 customer.setEnabled(true);
             } else {
@@ -102,7 +102,8 @@ public class CustomerServiceImpl implements CustomerService {
         if(principal instanceof UserDetails) {
             return (UserDetails) principal;
         } else {
-            throw new AuthenticationCredentialsNotFoundException("Unexpected principal type");
+            throw new AuthenticationException("Unauthorized") {
+            };
         }
     }
 }
