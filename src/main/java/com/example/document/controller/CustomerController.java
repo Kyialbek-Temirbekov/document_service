@@ -32,8 +32,8 @@ public class CustomerController {
         customerService.confirmEmail(otpDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @Operation(summary = "current user data")
-    @Parameter(name = "Authorization", in = ParameterIn.HEADER)
+    @Operation(summary = "logged in user data")
+    @Parameter(name = "Authorization", in = ParameterIn.HEADER, example = "Basic <encoded_credentials>")
     @GetMapping
     public ResponseEntity<CustomerDto> getCustomer() {
         return new ResponseEntity<>(customerService.getCustomer(), HttpStatus.OK);
