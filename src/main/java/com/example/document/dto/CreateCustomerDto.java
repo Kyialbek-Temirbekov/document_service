@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +22,7 @@ public class CreateCustomerDto {
                 .username(email)
                 .password(passwordEncoder.encode(password))
                 .firstName(firstName)
-                .lastName(lastName).build();
+                .lastName(lastName)
+                .createdAt(LocalDateTime.now()).build();
     }
 }

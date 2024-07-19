@@ -27,9 +27,9 @@ public class Customer implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
     private LocalDateTime lastSignInAt;
-    private boolean isEnabled = false;
+    private boolean isEnabled;
     @OneToOne(mappedBy = "customer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private Otp otp;
 

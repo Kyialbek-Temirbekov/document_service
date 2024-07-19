@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +48,9 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ConflictException(ExceptionMessages.USER_ALREADY_EXISTS + ":" + createCustomerDto.getEmail());
         } else {
             String otpValue = NumericTokenGenerator.generateToken(OTP_LENGTH);
-            messageService.sendMessage(new MessageDto(createCustomerDto.getEmail(), REGISTRATION_OTP_SUB, otpValue));
+            CompletableFuture.runAsync(() ->
+                    messageService.sendMessage(new MessageDto(createCustomerDto.getEmail(), REGISTRATION_OTP_SUB, otpValue))
+            );
             if(optionalCustomer.isPresent()) {
                 Otp otp = optionalCustomer.get().getOtp();
                 otp.setValue(otpValue);
