@@ -5,12 +5,15 @@ import com.example.document.dto.CustomerDto;
 import com.example.document.dto.MessageDto;
 import com.example.document.dto.OtpDto;
 import com.example.document.entity.Customer;
+import com.example.document.entity.CustomerField;
 import com.example.document.entity.Otp;
 import com.example.document.exception.ConflictException;
 import com.example.document.exception.ExceptionMessages;
 import com.example.document.repository.CustomerRepository;
 import com.example.document.service.CustomerService;
 import com.example.document.service.MessageService;
+import com.example.document.service.report.CustomerReportService;
+import com.example.document.service.report.ExcelReportService;
 import com.example.document.util.NumericTokenGenerator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final PasswordEncoder passwordEncoder;
     private final MessageService messageService;
     private final CustomerReportService customerReportService;
+    private final ExcelReportService reportService;
 
     private static final String REGISTRATION_OTP_SUB = "One time password for registration";
     private static final long OTP_EXPIRY_HOUR = 3;
@@ -113,8 +117,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public byte[] export() {
-        return customerReportService.export(
-                customerRepository.findAll()
+        return reportService.export(
+                customerRepository.findAll(),
+                CustomerField.values()
         );
     }
 }
