@@ -21,7 +21,9 @@ public class Dossier {
     private String title;
     private String description;
     private String objectName;
-    @ManyToOne
+    @Column(name = "customer_id", insertable = false, updatable = false)
+    private Long customerId;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 

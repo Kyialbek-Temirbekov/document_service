@@ -25,7 +25,7 @@ public class DossierServiceImpl implements DossierService {
 
     @Override
     @Transactional(readOnly = true)
-    @PreAuthorize("@customerServiceImpl.loggedInUser.id == @dossierRepository.findById(#id).get().customer.id")
+//    @PreAuthorize("@customerServiceImpl.loggedInUser.id == @dossierRepository.findById(#id).get().customer.id")
     public DossierDto get(Long id) {
         try {
             Dossier dossier = dossierRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -88,7 +88,9 @@ public class DossierServiceImpl implements DossierService {
             }
             return objectName;
         }
-        throw new IllegalArgumentException("File must not be empty");
+        else {
+            throw new IllegalArgumentException("File must not be empty");
+        }
     }
 
     @Override
@@ -100,7 +102,9 @@ public class DossierServiceImpl implements DossierService {
                 throw new MinioException(e.getLocalizedMessage());
             }
         }
-        throw new IllegalArgumentException("File must not be empty");
+        else {
+            throw new IllegalArgumentException("File must not be empty");
+        }
     }
 
     private String getId() {

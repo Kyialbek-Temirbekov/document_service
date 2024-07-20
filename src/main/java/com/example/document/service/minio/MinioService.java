@@ -2,6 +2,7 @@ package com.example.document.service.minio;
 
 import com.example.document.exception.MinioException;
 import com.example.document.property.MinioProperties;
+import com.example.document.util.FileUtil;
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
@@ -23,7 +24,7 @@ public class MinioService {
             minioClient.putObject(
                     PutObjectArgs.builder().bucket(minioProperties.getBucketName()).object(objectName)
                             .stream(stream, data.length, -1)
-                            .contentType(URLConnection.guessContentTypeFromStream(stream)).build());
+                            .contentType(FileUtil.getMimeType(stream)).build());
         } catch (Exception e) {
             throw new MinioException(e.getLocalizedMessage());
         }

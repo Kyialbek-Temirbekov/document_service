@@ -1,22 +1,28 @@
 package com.example.document.util;
 
-import java.io.ByteArrayInputStream;
+import org.apache.tika.Tika;
+
 import java.io.IOException;
-import java.net.URLConnection;
+import java.io.InputStream;
 import java.util.Base64;
 
 public class FileUtil {
-    public static String getBase64File(byte[] image) {
-        if(image == null) {
+    public static String getBase64File(byte[] file) {
+        if(file == null) {
             return null;
         }
-        String mimeType;
+        String base64Image = Base64.getEncoder().encodeToString(file);
+        return "data:" + getMimeType(file) + ";base64," + base64Image;
+    }
+
+    public static String getMimeType(byte[] file) {
+        return new Tika().detect(file);
+    }
+    public static String getMimeType(InputStream stream) {
         try {
-            mimeType = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(image));
+            return new Tika().detect(stream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        String base64Image = Base64.getEncoder().encodeToString(image);
-        return "data:" + mimeType + ";base64," + base64Image;
     }
 }
