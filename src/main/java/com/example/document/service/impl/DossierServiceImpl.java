@@ -8,6 +8,7 @@ import com.example.document.service.CustomerService;
 import com.example.document.service.DossierService;
 import com.example.document.service.minio.MinioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,7 @@ public class DossierServiceImpl implements DossierService {
 
     @Override
     @Transactional(readOnly = true)
+    @PreAuthorize("@customerServiceImpl.loggedInUser.id == @dossierRepository.findById(#id).get().customer.id")
     public DossierDto get(Long id) {
         try {
             Dossier dossier = dossierRepository.findById(id).orElseThrow(RuntimeException::new);
