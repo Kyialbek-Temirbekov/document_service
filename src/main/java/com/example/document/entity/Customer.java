@@ -30,8 +30,10 @@ public class Customer implements UserDetails {
     private LocalDateTime createdAt;
     private LocalDateTime lastSignInAt;
     private boolean isEnabled;
-    @OneToOne(mappedBy = "customer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToOne(mappedBy = "customer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
     private Otp otp;
+    @OneToMany(mappedBy = "customer")
+    private List<Dossier> dossiers;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

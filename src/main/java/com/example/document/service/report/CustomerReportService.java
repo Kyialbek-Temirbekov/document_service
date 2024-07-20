@@ -1,7 +1,7 @@
 package com.example.document.service.report;
 
 import com.example.document.entity.Customer;
-import com.example.document.entity.CustomerField;
+import com.example.document.dto.report.CustomerField;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;

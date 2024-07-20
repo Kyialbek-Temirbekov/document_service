@@ -1,5 +1,6 @@
-package com.example.document.entity;
+package com.example.document.dto.report;
 
+import com.example.document.entity.Customer;
 import com.example.document.service.report.ReportField;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

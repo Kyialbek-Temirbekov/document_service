@@ -25,4 +25,14 @@ public class ExceptionHandlerRestAdvice {
     public ErrorResponseDto handleException(EntityNotFoundException e) {
         return new ErrorResponseDto(HttpStatus.NOT_FOUND, properties.getMessage(e));
     }
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDto handleException(IllegalArgumentException e) {
+        return new ErrorResponseDto(HttpStatus.BAD_REQUEST, properties.getMessage(e));
+    }
+    @ExceptionHandler(MinioException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponseDto handleException(MinioException e) {
+        return new ErrorResponseDto(HttpStatus.INTERNAL_SERVER_ERROR, properties.getMessageAndLog(e));
+    }
 }

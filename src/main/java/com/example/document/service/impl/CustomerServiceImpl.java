@@ -5,7 +5,7 @@ import com.example.document.dto.CustomerDto;
 import com.example.document.dto.MessageDto;
 import com.example.document.dto.OtpDto;
 import com.example.document.entity.Customer;
-import com.example.document.entity.CustomerField;
+import com.example.document.dto.report.CustomerField;
 import com.example.document.entity.Otp;
 import com.example.document.exception.ConflictException;
 import com.example.document.exception.ExceptionMessages;

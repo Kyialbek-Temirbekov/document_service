@@ -22,3 +22,14 @@ spring:
           auth: true
           starttls:
             enable: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      file-size-threshold: 1MB
+
+minio:
+  url: http://localhost:9000
+  accessKey: joe
+  secretKey: joecessler
+  bucketName: document
