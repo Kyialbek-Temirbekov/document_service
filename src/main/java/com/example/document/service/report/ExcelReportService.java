@@ -38,6 +38,8 @@ public class ExcelReportService {
             var value = field.extractValue(object);
             if(value instanceof LocalDateTime) {
                 cell.setCellValue(formatDateTime((LocalDateTime)value));
+            } else if(value instanceof Boolean) {
+                cell.setCellValue((Boolean) value ? "Да" : "Нет");
             } else if(value != null) {
                 cell.setCellValue(value.toString());
             } else {
