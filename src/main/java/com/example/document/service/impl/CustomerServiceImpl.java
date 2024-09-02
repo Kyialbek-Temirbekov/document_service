@@ -56,6 +56,12 @@ public class CustomerServiceImpl implements CustomerService {
                     messageService.sendMessage(new MessageDto(createCustomerDto.getEmail(), REGISTRATION_OTP_SUB, otpValue))
             );
             if(optionalCustomer.isPresent()) {
+                Customer customer = optionalCustomer.get();
+                customer.setUsername(createCustomerDto.getEmail());
+                customer.setPassword(passwordEncoder.encode(createCustomerDto.getPassword()));
+                customer.setFirstName(createCustomerDto.getFirstName());
+                customer.setLastName(createCustomerDto.getLastName());
+
                 Otp otp = optionalCustomer.get().getOtp();
                 otp.setValue(otpValue);
                 otp.setExpiryTime(LocalDateTime.now().plusHours(OTP_EXPIRY_HOUR));
