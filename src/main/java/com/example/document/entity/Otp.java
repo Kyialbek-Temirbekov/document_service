@@ -15,13 +15,12 @@ import java.time.LocalDateTime;
 @Builder
 public class Otp {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "otp_id_gen")
-    @SequenceGenerator(name = "otp_id_gen", sequenceName = "otp_seq", allocationSize = 1)
-    private Long id;
+    private Long customerId;
     private String value;
     private LocalDateTime expiryTime;
     @OneToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @MapsId
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     public boolean isExpired() {
