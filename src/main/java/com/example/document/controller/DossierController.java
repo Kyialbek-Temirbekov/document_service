@@ -34,5 +34,5 @@ public class DossierController {
     ResponseEntity<String> delete(@PathVariable Long id) {
         dossierService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
-    };
+    }
 }

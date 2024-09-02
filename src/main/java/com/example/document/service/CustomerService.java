@@ -12,5 +12,6 @@ public interface CustomerService {
     Customer getLoggedInUser();
     UserDetails getPrincipal();
     CustomerDto getCustomer();
+    void delete(Long id);
     byte[] export();
 }
